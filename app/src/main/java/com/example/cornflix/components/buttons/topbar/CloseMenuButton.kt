@@ -1,29 +1,39 @@
 package com.example.cornflix.components.buttons.topbar
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Menu
+import androidx.compose.material.icons.filled.Close
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.IconButtonDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
+import androidx.compose.ui.unit.dp
+import com.example.cornflix.ui.theme.closeButton
 import com.example.cornflix.ui.theme.menuButton
 
 @Composable
-fun MenuButton(iconHeight: Dp){
-    IconButton(modifier = Modifier.size(iconHeight),
+fun CloseMenuButton(iconHeight: Dp){
+    IconButton(
+        modifier = Modifier
+            .size(iconHeight)
+            .background(color = closeButton,
+                shape = RoundedCornerShape(4.dp)
+            )
+            .padding(8.dp),
         colors = IconButtonDefaults.iconButtonColors(
             contentColor = menuButton,
         ),
         onClick = { /*TODO*/ }) {
-        Icon(modifier = Modifier.fillMaxSize(),
-            imageVector = Icons.Default.Menu,
+        Icon(modifier = Modifier
+            .fillMaxSize(),
+            imageVector = Icons.Filled.Close,
             contentDescription = "Favorite",
         )
     }
 }
-//Apenas um escopo
