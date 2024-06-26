@@ -10,9 +10,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -22,14 +20,14 @@ import com.example.cornflix.components.buttons.topbar.FavoriteButton
 import com.example.cornflix.components.buttons.topbar.LogoButton
 import com.example.cornflix.components.buttons.topbar.MenuButton
 import com.example.cornflix.ui.theme.primary
+import com.example.cornflix.viewmodel.HomeScreenViewModel
 
 @Composable
-fun TopAppBar() {
+fun TopAppBar(homeScreenViewModel: HomeScreenViewModel) {
     val mySize = 35.dp
-    var showMenuIcon by remember { mutableStateOf(true)}
-    //val showMenuIcon by viewModel.showMenuIcon.collectAsState()
-    var expanded by remember { mutableStateOf(false)}
-    //val expanded by viewModel.expanded.collectAsState()
+    val showMenuIcon by homeScreenViewModel.showMenuIcon.observeAsState()
+    val expanded by homeScreenViewModel.expanded.observeAsState()
+
     Column(
         modifier = Modifier
             .background(primary)
@@ -42,25 +40,27 @@ fun TopAppBar() {
             horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically
         ) {
-            if (showMenuIcon) {
+            if (showMenuIcon == true) {
                 MenuButton(
                     mySize,
                     onClick = {
-                        showMenuIcon = false
-                        expanded = true
+                        //showMenuIcon = false
+                        //expanded = true
+                        homeScreenViewModel.changeIcon(showMi = false, expand = true)
                     })
             } else {
                 CloseMenuButton(
                     mySize,
                     onClick = {
-                        showMenuIcon = true
-                        expanded = false
+                        //showMenuIcon = true
+                        //expanded = false
+                        homeScreenViewModel.changeIcon(showMi = true, expand = false)
                     })
             }
             LogoButton(mySize)
             FavoriteButton(mySize)
         }
-        if(expanded){
+        if(expanded == true){
             Text(
                 text = "Home",
                 color = Color.White,
