@@ -9,17 +9,16 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.IconButtonDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import com.example.cornflix.ui.theme.menuButton
 
 @Composable
-fun MenuButton(iconHeight: Dp){
+fun MenuButton(iconHeight: Dp, onClick: () -> Unit){
     IconButton(modifier = Modifier.size(iconHeight),
         colors = IconButtonDefaults.iconButtonColors(
             contentColor = menuButton,
         ),
-        onClick = { /*TODO*/ }) {
+        onClick =  onClick ) {
         Icon(modifier = Modifier.fillMaxSize(),
             imageVector = Icons.Default.Menu,
             contentDescription = "Favorite",

@@ -18,7 +18,7 @@ import com.example.cornflix.ui.theme.closeButton
 import com.example.cornflix.ui.theme.menuButton
 
 @Composable
-fun CloseMenuButton(iconHeight: Dp){
+fun CloseMenuButton(iconHeight: Dp, onClick: () -> Unit){
     IconButton(
         modifier = Modifier
             .size(iconHeight)
@@ -29,7 +29,7 @@ fun CloseMenuButton(iconHeight: Dp){
         colors = IconButtonDefaults.iconButtonColors(
             contentColor = menuButton,
         ),
-        onClick = { /*TODO*/ }) {
+        onClick = onClick) {
         Icon(modifier = Modifier
             .fillMaxSize(),
             imageVector = Icons.Filled.Close,
