@@ -7,6 +7,7 @@ import androidx.compose.foundation.gestures.scrollable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -42,7 +43,7 @@ import com.example.cornflix.ui.theme.textColor
 import com.example.cornflix.ui.theme.transparent
 
 @Composable
-fun DescriptionScreen() {
+fun DescriptionScreen(paddingValues: PaddingValues) {
 
     val description = arrayListOf(
         "Nome do filme", "ANO", "NOTA", "DURAÇÃO",
@@ -53,7 +54,8 @@ fun DescriptionScreen() {
     Box(
         modifier = Modifier
             .fillMaxSize()
-            .background(Color.Black),
+            .background(Color.Black)
+            .padding(paddingValues),
         contentAlignment = Alignment.Center
     ) {
         Image(
