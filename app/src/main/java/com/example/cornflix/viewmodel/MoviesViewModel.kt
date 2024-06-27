@@ -1,39 +1,41 @@
 package com.example.cornflix.viewmodel
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.cornflix.constants.ConstantsAPI
-import com.example.cornflix.models.MoviesModel
-import com.example.cornflix.retrofit_config.RetrofitClient
-import kotlinx.coroutines.Dispatchers
+import com.example.cornflix.data.RetrofitService
+import com.example.cornflix.models.movie.MoviesResponse
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
+import retrofit2.HttpException
+import java.io.IOException
 
-class MoviesViewModel: ViewModel() {
-    private var _nowPlaying = MutableLiveData<List<MoviesModel>>()
-    var nowPLaying: LiveData<List<MoviesModel>> = _nowPlaying
+sealed interface MoviesUiState {
+    data class Success(val result: MoviesResponse) : MoviesUiState
+    object Error : MoviesUiState
+    object Loading : MoviesUiState
+}
 
-    private var _movieList = MutableLiveData<List<MoviesModel>>()
-    var movieList: LiveData<List<MoviesModel>> = _movieList
+class MoviesViewModel : ViewModel() {
+    /** The mutable State that stores the status of the most recent request */
+    var moviesUiState: MoviesUiState by mutableStateOf(MoviesUiState.Loading)
+        private set
 
-    fun getMovieList() {
-        viewModelScope.launch(Dispatchers.IO) {
-            val response = RetrofitClient.webService.getNowPlaying(ConstantsAPI.API_KEY)
-
-            withContext(Dispatchers.Main) {
-                _movieList.value = response.body()!!.results.sortedBy { it.voteAverage }
-            }
-        }
+    init {
+        getMovies()
     }
 
     fun getMovies() {
-        viewModelScope.launch(Dispatchers.IO) {
-            val response = RetrofitClient.webService.getNowPlaying(ConstantsAPI.API_KEY)
-
-            withContext(Dispatchers.Main) {
-                _movieList.value = response.body()!!.results.sortedBy { it.voteAverage }
+        viewModelScope.launch {
+            moviesUiState = MoviesUiState.Loading
+            moviesUiState = try {
+                val result = RetrofitService.retrofitService.getPopularMovies()
+                MoviesUiState.Success(result)
+            } catch (e: IOException) {
+                MoviesUiState.Error
+            } catch (e: HttpException) {
+                MoviesUiState.Error
             }
         }
     }
