@@ -12,31 +12,33 @@ import kotlinx.coroutines.launch
 import retrofit2.HttpException
 import java.io.IOException
 
-sealed interface MoviesUiState {
-    data class Success(val result: MediaResponse<Movie>) : MoviesUiState
-    object Error : MoviesUiState
-    object Loading : MoviesUiState
+
+sealed interface MediaUiState {
+    data class Success(val result: MediaResponse<Movie>) : MediaUiState
+    object Error : MediaUiState
+    object Loading : MediaUiState
 }
 
-class MoviesViewModel : ViewModel() {
+class MediaViewModel : ViewModel() {
     /** The mutable State that stores the status of the most recent request */
-    var moviesUiState: MoviesUiState by mutableStateOf(MoviesUiState.Loading)
+    var moviesUiState: MediaUiState by mutableStateOf(MediaUiState.Loading)
         private set
 
     init {
-        getMovies()
+        getMedias()
     }
 
-    fun getMovies() {
+    fun getMedias() {
+
         viewModelScope.launch {
-            moviesUiState = MoviesUiState.Loading
+            moviesUiState = MediaUiState.Loading
             moviesUiState = try {
                 val result = RetrofitService.retrofitService.getPopularMovies()
-                MoviesUiState.Success(result)
+                MediaUiState.Success(result)
             } catch (e: IOException) {
-                MoviesUiState.Error
+                MediaUiState.Error
             } catch (e: HttpException) {
-                MoviesUiState.Error
+                MediaUiState.Error
             }
         }
     }

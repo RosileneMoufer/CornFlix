@@ -7,15 +7,15 @@ import androidx.compose.material3.IconButton
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
-import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
 import com.example.cornflix.R
+import com.example.cornflix.constants.ItemsMenu
 
 @Composable
-fun LogoButton(iconHeight: Dp){
+fun LogoButton(iconHeight: Dp, navController: NavController){
     IconButton(modifier = Modifier.size(iconHeight),
-        onClick = { /*TODO*/ }) {
+        onClick = { navController.navigate(ItemsMenu.Home.name) }) {
         Image(modifier = Modifier.fillMaxSize(),
             painter = painterResource(id = R.drawable.popcorn),
             contentDescription = "logo"

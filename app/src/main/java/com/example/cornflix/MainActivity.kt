@@ -5,41 +5,50 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.systemBarsPadding
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.NavHostController
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
 import com.example.cornflix.components.topbar.TopAppBar
+import com.example.cornflix.constants.ItemsMenu
+import com.example.cornflix.screen.MediaScreen
 import com.example.cornflix.screen.MovieScreen
 import com.example.cornflix.screen.SeriesScreen
 import com.example.cornflix.ui.theme.CornFlixTheme
 import com.example.cornflix.viewmodel.HomeScreenViewModel
+import com.example.cornflix.viewmodel.MediaViewModel
 import com.example.cornflix.viewmodel.MoviesViewModel
 import com.example.cornflix.viewmodel.SeriesViewModel
 
 class MainActivity : ComponentActivity() {
     private val homeScreenViewModel by viewModels<HomeScreenViewModel>()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
             CornFlixTheme {
+                val navController = rememberNavController()
+
                 Scaffold(
                     modifier = Modifier
                         .systemBarsPadding()
                         .fillMaxSize(),
-                    topBar = { TopAppBar(homeScreenViewModel = homeScreenViewModel) }) { innerPadding ->
-                    val moviesViewModel: MoviesViewModel = viewModel<MoviesViewModel>()
-                    MovieScreen(innerPadding = innerPadding, moviesUiState = moviesViewModel.moviesUiState)
-                    /*val seriesViewModel: SeriesViewModel = viewModel<SeriesViewModel>()
-                    SeriesScreen(innerPadding = innerPadding, seriesUiState = seriesViewModel.seriesUiState)*/
+                    topBar = {
+                        TopAppBar(
+                            navController,
+                            homeScreenViewModel = homeScreenViewModel
+                        )
+                    },
+                ) { innerPadding ->
+                    Nav(innerPadding, navController)
                 }
             }
         }
@@ -47,20 +56,36 @@ class MainActivity : ComponentActivity() {
 }
 
 @Composable
-fun Greeting(name: String, modifier: Modifier = Modifier) {
-    Column {
-        Text(
-            text = "Hello $name!",
-            modifier = modifier
-        )
-    }
-}
+fun Nav(innerPadding: PaddingValues, navController: NavHostController) {
+    NavHost(navController = navController, startDestination = ItemsMenu.Home.name) {
+        composable(route = ItemsMenu.Home.name) {
+            val moviesViewModel: MediaViewModel = viewModel<MediaViewModel>()
+            MediaScreen(
+                innerPadding = innerPadding,
+                mediaUiState = moviesViewModel.moviesUiState,
+                navController
+            )
+        }
+        composable(route = ItemsMenu.Movies.name) {
+            val moviesViewModel: MoviesViewModel = viewModel<MoviesViewModel>()
+            MovieScreen(
+                innerPadding = innerPadding,
+                moviesUiState = moviesViewModel.moviesUiState,
+                navController
+            )
+        }
+        composable(route = ItemsMenu.Series.name) {
+            val seriesViewModel: SeriesViewModel = viewModel<SeriesViewModel>()
+            SeriesScreen(
+                innerPadding = innerPadding,
+                seriesUiState = seriesViewModel.seriesUiState,
+                navController
+            )
+        }
+        composable(route = ItemsMenu.Details.name) {
+            val mediaViewModel: MediaViewModel = viewModel<MediaViewModel>()
+            //DetailsMediaScreen(mediaModel = mediaViewModel, paddingValues = innerPadding)
 
-@Preview(showBackground = true, showSystemUi = true)
-@Composable
-fun GreetingPreview() {
-    CornFlixTheme {
-        Greeting("Android")
-
+        }
     }
 }

@@ -22,7 +22,30 @@ fun FavoritesScreen(paddingValues: PaddingValues) {
             .background(tertiary)
             .padding(paddingValues)
     ) {
-
+        LazyVerticalGridDemo()
     }
 }
 
+@Composable
+fun LazyVerticalGridDemo() {
+    val list = (1..10).map { it.toString() }
+/*
+    LazyVerticalGrid(
+        columns = GridCells.Fixed(2),
+
+        // content padding
+        contentPadding = PaddingValues(16.dp),
+
+        verticalArrangement = Arrangement.spacedBy(8.dp),
+
+        horizontalArrangement = Arrangement.spacedBy(8.dp),
+
+        content = {
+            items(list.size) { index ->
+                Card(index)
+            }
+        }
+    )
+
+ */
+}

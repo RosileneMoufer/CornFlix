@@ -8,22 +8,21 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavController
 import com.example.cornflix.components.LazyColumnMedia
-import com.example.cornflix.viewmodel.MoviesUiState
-
+import com.example.cornflix.viewmodel.MediaUiState
 
 @Composable
-fun MovieScreen(
+fun MediaScreen(
     innerPadding: PaddingValues,
-    moviesUiState: MoviesUiState,
+    mediaUiState: MediaUiState,
     navController: NavController,
     modifier: Modifier = Modifier) {
 
     Surface(modifier = modifier.fillMaxSize().padding(top = innerPadding.calculateTopPadding())) {
 
-        when (moviesUiState) {
-            is MoviesUiState.Success -> LazyColumnMedia(navController, moviesUiState.result.results)
-            is MoviesUiState.Error -> {}
-            is MoviesUiState.Loading -> {}
+        when (mediaUiState) {
+            is MediaUiState.Success -> LazyColumnMedia(navController, mediaUiState.result.results)
+            is MediaUiState.Error -> {}
+            is MediaUiState.Loading -> {}
         }
     }
 }

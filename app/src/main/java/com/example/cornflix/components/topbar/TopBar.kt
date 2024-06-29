@@ -15,15 +15,17 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavHostController
 import com.example.cornflix.components.buttons.topbar.CloseMenuButton
 import com.example.cornflix.components.buttons.topbar.FavoriteButton
 import com.example.cornflix.components.buttons.topbar.LogoButton
 import com.example.cornflix.components.buttons.topbar.MenuButton
+import com.example.cornflix.constants.ItemsMenu
 import com.example.cornflix.ui.theme.primary
 import com.example.cornflix.viewmodel.HomeScreenViewModel
 
 @Composable
-fun TopAppBar(homeScreenViewModel: HomeScreenViewModel) {
+fun TopAppBar(navController: NavHostController, homeScreenViewModel: HomeScreenViewModel) {
     val mySize = 35.dp
     val showMenuIcon by homeScreenViewModel.showMenuIcon.observeAsState()
     val expanded by homeScreenViewModel.expanded.observeAsState()
@@ -57,7 +59,7 @@ fun TopAppBar(homeScreenViewModel: HomeScreenViewModel) {
                         homeScreenViewModel.changeIcon(showMi = true, expand = false)
                     })
             }
-            LogoButton(mySize)
+            LogoButton(mySize, navController)
             FavoriteButton(mySize)
         }
         if(expanded == true){
@@ -67,7 +69,7 @@ fun TopAppBar(homeScreenViewModel: HomeScreenViewModel) {
                 modifier = Modifier
                     .padding(8.dp)
                     .fillMaxWidth()
-                    .clickable { /* Handle click for Text */ }
+                    .clickable { navController.navigate(ItemsMenu.Home.name) }
             )
             Text(
                 text = "Filmes",
@@ -75,7 +77,7 @@ fun TopAppBar(homeScreenViewModel: HomeScreenViewModel) {
                 modifier = Modifier
                     .padding(8.dp)
                     .fillMaxWidth()
-                    .clickable { /* Handle click for Text */ }
+                    .clickable { navController.navigate(ItemsMenu.Movies.name) }
             )
             Text(
                 text = "Séries",
@@ -83,7 +85,7 @@ fun TopAppBar(homeScreenViewModel: HomeScreenViewModel) {
                 modifier = Modifier
                     .padding(8.dp)
                     .fillMaxWidth()
-                    .clickable { /* Handle click for Text */ }
+                    .clickable { navController.navigate(ItemsMenu.Series.name) }
             )
         }
     }

@@ -1,5 +1,6 @@
 package com.example.cornflix.components
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
@@ -8,23 +9,23 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
-import com.example.cornflix.models.MediaModel
-import com.example.cornflix.models.movie.MoviesModel
-import java.util.Objects
+import com.example.cornflix.constants.ItemsMenu
+import com.example.cornflix.model.MediaModel
 
 @Composable
-fun Card(movie: MoviesModel,) {
-    val moviePoster = movie.posterMovie
+fun Card(media: MediaModel, navController: NavController) {
+    val mediaPoster = media.poster
     AsyncImage(
-        modifier = Modifier.fillMaxSize().clip(RoundedCornerShape(8.dp)),
-        model =
-        ImageRequest.Builder(context = LocalContext.current)
-            .data("https://image.tmdb.org/t/p/original$moviePoster")
+        modifier = Modifier.fillMaxSize()
+            .clip(RoundedCornerShape(8.dp))
+            .clickable { navController.navigate(ItemsMenu.Details.name) },
+        model = ImageRequest.Builder(context = LocalContext.current)
+            .data("https://image.tmdb.org/t/p/original$mediaPoster")
             .crossfade(true).build(),
-        contentDescription = movie.nameMovie,
+        contentDescription = media.name,
         contentScale = ContentScale.Crop,
-
     )
 }

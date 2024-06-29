@@ -5,14 +5,15 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.cornflix.data.RetrofitService
-import com.example.cornflix.models.series.SeriesResponse
+import com.example.cornflix.api.RetrofitService
+import com.example.cornflix.model.MediaResponse
+import com.example.cornflix.model.series.Series
 import kotlinx.coroutines.launch
 import retrofit2.HttpException
 import java.io.IOException
 
 sealed interface SeriesUiState {
-    data class Success(val result: SeriesResponse) : SeriesUiState
+    data class Success(val result: MediaResponse<Series>) : SeriesUiState
     object Error : SeriesUiState
     object Loading : SeriesUiState
 }

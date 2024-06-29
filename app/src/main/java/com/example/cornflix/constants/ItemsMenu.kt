@@ -1,7 +1,8 @@
 package com.example.cornflix.constants
 
-enum class ItemsMenu {
-    HOME,
-    MOVIES,
-    SERIES
+enum class ItemsMenu() {
+    Home,
+    Movies,
+    Series,
+    Details,
 }
