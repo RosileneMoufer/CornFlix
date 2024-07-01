@@ -14,8 +14,8 @@ import java.io.IOException
 
 sealed interface SeriesUiState {
     data class Success(val result: MediaResponse<Series>) : SeriesUiState
-    object Error : SeriesUiState
-    object Loading : SeriesUiState
+    data object Error : SeriesUiState
+    data object Loading : SeriesUiState
 }
 
 class SeriesViewModel : ViewModel() {
@@ -27,7 +27,7 @@ class SeriesViewModel : ViewModel() {
         getSeries()
     }
 
-    fun getSeries() {
+    private fun getSeries() {
         viewModelScope.launch {
             seriesUiState = SeriesUiState.Loading
             seriesUiState = try {

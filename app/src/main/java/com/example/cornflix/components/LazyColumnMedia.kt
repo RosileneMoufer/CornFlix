@@ -13,13 +13,13 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.example.cornflix.ui.theme.tertiary
 import com.example.cornflix.model.MediaModel
+import com.example.cornflix.viewmodel.HomeScreenViewModel
 
 
 @Composable
 fun LazyColumnMedia(
     navController: NavController,
     listMedias: List<MediaModel> = listOf(),
-    showCloseButtonCards: Boolean = false,
 ) {
 
     LazyVerticalGrid(

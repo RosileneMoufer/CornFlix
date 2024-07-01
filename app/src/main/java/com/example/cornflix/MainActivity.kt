@@ -18,6 +18,8 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.cornflix.components.topbar.TopAppBar
 import com.example.cornflix.constants.ItemsMenu
+import com.example.cornflix.model.MediaModel
+import com.example.cornflix.screen.DetailsMediaScreen
 import com.example.cornflix.screen.MediaScreen
 import com.example.cornflix.screen.MovieScreen
 import com.example.cornflix.screen.SeriesScreen
@@ -56,13 +58,16 @@ class MainActivity : ComponentActivity() {
 }
 
 @Composable
-fun Nav(innerPadding: PaddingValues, navController: NavHostController) {
+fun Nav(
+    innerPadding: PaddingValues,
+    navController: NavHostController,
+) {
     NavHost(navController = navController, startDestination = ItemsMenu.Home.name) {
         composable(route = ItemsMenu.Home.name) {
-            val moviesViewModel: MediaViewModel = viewModel<MediaViewModel>()
+            val mediaViewModel: MediaViewModel = viewModel<MediaViewModel>()
             MediaScreen(
                 innerPadding = innerPadding,
-                mediaUiState = moviesViewModel.moviesUiState,
+                mediaUiState = mediaViewModel.mediaUiState,
                 navController
             )
         }
@@ -83,9 +88,13 @@ fun Nav(innerPadding: PaddingValues, navController: NavHostController) {
             )
         }
         composable(route = ItemsMenu.Details.name) {
-            val mediaViewModel: MediaViewModel = viewModel<MediaViewModel>()
-            //DetailsMediaScreen(mediaModel = mediaViewModel, paddingValues = innerPadding)
-
+            val results =
+                navController.previousBackStackEntry?.savedStateHandle?.get<MediaModel>("media")
+            if (results != null) {
+                DetailsMediaScreen(paddingValues = innerPadding, mediaModel = results)
+            } else {
+                // exibe tela "Not found"
+            }
         }
     }
 }

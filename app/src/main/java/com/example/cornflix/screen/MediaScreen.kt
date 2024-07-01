@@ -16,11 +16,14 @@ fun MediaScreen(
     mediaUiState: MediaUiState,
     navController: NavController,
     modifier: Modifier = Modifier) {
-
     Surface(modifier = modifier.fillMaxSize().padding(top = innerPadding.calculateTopPadding())) {
-
         when (mediaUiState) {
-            is MediaUiState.Success -> LazyColumnMedia(navController, mediaUiState.result.results)
+            is MediaUiState.Success -> {
+                val result = mediaUiState.moviesResult.results + mediaUiState.seriesResult.results
+                val sorted = result.sortedBy { it.voteAverage }
+
+                LazyColumnMedia(navController, sorted)
+            }
             is MediaUiState.Error -> {}
             is MediaUiState.Loading -> {}
         }

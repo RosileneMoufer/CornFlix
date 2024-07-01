@@ -20,11 +20,14 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import coil.compose.AsyncImage
+import coil.request.ImageRequest
 import com.example.cornflix.R
 import com.example.cornflix.components.buttons.SaveButton
 import com.example.cornflix.components.buttons.TrailerButton
@@ -34,28 +37,26 @@ import com.example.cornflix.ui.theme.secondary
 import com.example.cornflix.ui.theme.textColor
 import com.example.cornflix.ui.theme.transparent
 import com.example.cornflix.model.MediaModel
+import com.example.cornflix.viewmodel.HomeScreenViewModel
 
 @Composable
-fun DetailsMediaScreen(mediaModel: MediaModel, paddingValues: PaddingValues) {
-
-    val description = arrayListOf(
-        "Nome do filme", "ANO", "NOTA", "DURAÇÃO",
-        "Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
-        "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. "
-    )
+fun DetailsMediaScreen(paddingValues: PaddingValues, mediaModel: MediaModel) {
 
     Box(
         modifier = Modifier
             .fillMaxSize()
             .background(Color.Black)
-            .padding(paddingValues),
+            .padding(top = paddingValues.calculateTopPadding()),
         contentAlignment = Alignment.Center
     ) {
-        Image(
-            painter = painterResource(id = R.drawable.ic_launcher_background), contentDescription = "",
+
+        AsyncImage(
+            modifier = Modifier.fillMaxSize(),
+            model = ImageRequest.Builder(context = LocalContext.current)
+                .data("https://image.tmdb.org/t/p/original${mediaModel.poster}")
+                .crossfade(true).build(),
+            contentDescription = mediaModel.name,
             contentScale = ContentScale.Crop,
-            modifier = Modifier
-                .fillMaxSize()
         )
 
         Column(
@@ -79,10 +80,10 @@ fun DetailsMediaScreen(mediaModel: MediaModel, paddingValues: PaddingValues) {
         ) {
             // movie title
             Text(
-                text = description[0],
+                text = mediaModel.name,
                 style = TextStyle(
                     fontSize = 32.sp, fontWeight = FontWeight.W700,
-                    lineHeight = 22.sp,
+                    lineHeight = 42.sp,
                     color = textColor
                 )
             )
@@ -90,20 +91,20 @@ fun DetailsMediaScreen(mediaModel: MediaModel, paddingValues: PaddingValues) {
             //details
             Row(horizontalArrangement = Arrangement.spacedBy(18.dp)) {
                 Text(
-                    text = description[1], style = TextStyle(
+                    text = mediaModel.releaseDate, style = TextStyle(
                         color = detailsTextColor,
                         fontSize = 12.sp,
                         fontWeight = FontWeight.W600,
                     )
                 )
                 Text(
-                    text = description[2], style = TextStyle(
+                    text = mediaModel.voteAverage, style = TextStyle(
                         color = secondary,
                         fontSize = 12.sp, fontWeight = FontWeight.W600,
                     )
                 )
                 Text(
-                    text = "|   " + description[3], style = TextStyle(
+                    text = "|   " + mediaModel.name, style = TextStyle(
                         color = detailsTextColor,
                         fontSize = 12.sp, fontWeight = FontWeight.W600,
                     )
@@ -114,7 +115,7 @@ fun DetailsMediaScreen(mediaModel: MediaModel, paddingValues: PaddingValues) {
 
             // title description
             Text(
-                text = description[4],
+                text = mediaModel.name,
                 style = TextStyle(
                     fontSize = 18.sp,
                     fontWeight = FontWeight.W700, lineHeight = 24.sp, color = textColor
@@ -125,7 +126,7 @@ fun DetailsMediaScreen(mediaModel: MediaModel, paddingValues: PaddingValues) {
 
             // description
             Text(
-                text = description[5],
+                text = mediaModel.description,
                 style = TextStyle(
                     fontSize = 14.sp,
                     fontWeight = FontWeight.W600, lineHeight = 20.sp, color = textColor

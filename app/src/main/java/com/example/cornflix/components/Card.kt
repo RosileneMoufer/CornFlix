@@ -14,6 +14,7 @@ import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.example.cornflix.constants.ItemsMenu
 import com.example.cornflix.model.MediaModel
+import com.example.cornflix.viewmodel.HomeScreenViewModel
 
 @Composable
 fun Card(media: MediaModel, navController: NavController) {
@@ -21,7 +22,13 @@ fun Card(media: MediaModel, navController: NavController) {
     AsyncImage(
         modifier = Modifier.fillMaxSize()
             .clip(RoundedCornerShape(8.dp))
-            .clickable { navController.navigate(ItemsMenu.Details.name) },
+            .clickable {
+                navController.currentBackStackEntry?.savedStateHandle?.set(
+                    key = "media",
+                    value = media
+                )
+                navController.navigate(ItemsMenu.Details.name)
+            },
         model = ImageRequest.Builder(context = LocalContext.current)
             .data("https://image.tmdb.org/t/p/original$mediaPoster")
             .crossfade(true).build(),

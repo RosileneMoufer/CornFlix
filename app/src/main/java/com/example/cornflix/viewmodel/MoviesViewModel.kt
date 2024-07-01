@@ -14,8 +14,8 @@ import java.io.IOException
 
 sealed interface MoviesUiState {
     data class Success(val result: MediaResponse<Movie>) : MoviesUiState
-    object Error : MoviesUiState
-    object Loading : MoviesUiState
+    data object Error : MoviesUiState
+    data object Loading : MoviesUiState
 }
 
 class MoviesViewModel : ViewModel() {
