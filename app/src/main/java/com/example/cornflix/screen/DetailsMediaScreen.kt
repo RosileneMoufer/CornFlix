@@ -1,6 +1,5 @@
 package com.example.cornflix.screen
 
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -21,14 +20,12 @@ import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
-import com.example.cornflix.R
 import com.example.cornflix.components.buttons.SaveButton
 import com.example.cornflix.components.buttons.TrailerButton
 import com.example.cornflix.ui.theme.detailsTextColor
@@ -36,12 +33,11 @@ import com.example.cornflix.ui.theme.primary
 import com.example.cornflix.ui.theme.secondary
 import com.example.cornflix.ui.theme.textColor
 import com.example.cornflix.ui.theme.transparent
-import com.example.cornflix.model.MediaModel
-import com.example.cornflix.viewmodel.HomeScreenViewModel
+import com.example.cornflix.model.media.MediaModel
 
 @Composable
 fun DetailsMediaScreen(paddingValues: PaddingValues, mediaModel: MediaModel) {
-
+    val mediaType = mediaModel.javaClass.name
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -138,7 +134,7 @@ fun DetailsMediaScreen(paddingValues: PaddingValues, mediaModel: MediaModel) {
             // buttons
             Row(horizontalArrangement = Arrangement.spacedBy(12.dp)) {
                 TrailerButton()
-                SaveButton()
+                SaveButton(mediaModel.id)
             }
 
         }

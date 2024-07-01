@@ -18,7 +18,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.cornflix.components.topbar.TopAppBar
 import com.example.cornflix.constants.ItemsMenu
-import com.example.cornflix.model.MediaModel
+import com.example.cornflix.model.media.MediaModel
 import com.example.cornflix.screen.DetailsMediaScreen
 import com.example.cornflix.screen.MediaScreen
 import com.example.cornflix.screen.MovieScreen

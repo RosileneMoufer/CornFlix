@@ -12,8 +12,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.example.cornflix.ui.theme.tertiary
-import com.example.cornflix.model.MediaModel
-import com.example.cornflix.viewmodel.HomeScreenViewModel
+import com.example.cornflix.model.media.MediaModel
 
 
 @Composable

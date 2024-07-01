@@ -6,7 +6,7 @@ import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.cornflix.api.RetrofitService
-import com.example.cornflix.model.MediaResponse
+import com.example.cornflix.model.media.MediaResponse
 import com.example.cornflix.model.movie.Movie
 import kotlinx.coroutines.launch
 import retrofit2.HttpException

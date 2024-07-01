@@ -1,4 +1,4 @@
-package com.example.cornflix.model
+package com.example.cornflix.model.media
 
 import com.google.gson.annotations.SerializedName
 

@@ -13,8 +13,7 @@ import androidx.navigation.NavController
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.example.cornflix.constants.ItemsMenu
-import com.example.cornflix.model.MediaModel
-import com.example.cornflix.viewmodel.HomeScreenViewModel
+import com.example.cornflix.model.media.MediaModel
 
 @Composable
 fun Card(media: MediaModel, navController: NavController) {

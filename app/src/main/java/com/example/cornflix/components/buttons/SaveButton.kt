@@ -21,17 +21,26 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.cornflix.ui.theme.textColor
 import com.example.cornflix.ui.theme.transparent
+import com.example.cornflix.viewmodel.FavoritesViewModel
+import com.example.cornflix.viewmodel.SeriesViewModel
 
 @Composable
-fun SaveButton() {
+fun SaveButton(mediaId : String) {
+    val favoritesViewModel: FavoritesViewModel = viewModel()
+
     Box(
         modifier = Modifier
             .clip(RoundedCornerShape(8.dp))
             .background(transparent)
             .border(2.dp, color = textColor, shape = RoundedCornerShape(8.dp))
-            .clickable { /* TODO */ },
+            .clickable {
+
+                favoritesViewModel.addFavorites(mediaId, )
+
+            },
         contentAlignment = Alignment.Center
     ) {
         Row(modifier = Modifier.padding(start = 12.dp, top = 12.dp, end = 16.dp, bottom = 12.dp),
