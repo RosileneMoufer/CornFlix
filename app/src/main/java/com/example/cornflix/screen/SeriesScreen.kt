@@ -9,6 +9,7 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.NavController
 import com.example.cornflix.components.LazyColumnMedia
 import com.example.cornflix.viewmodel.SeriesUiState
+import com.example.cornflix.viewmodel.SeriesViewModel
 
 
 @Composable
@@ -16,12 +17,13 @@ fun SeriesScreen(
     innerPadding: PaddingValues,
     seriesUiState: SeriesUiState,
     navController: NavController,
+    seriesViewModel: SeriesViewModel,
     modifier: Modifier = Modifier) {
 
     Surface(modifier = modifier.fillMaxSize().padding(top = innerPadding.calculateTopPadding())) {
 
         when (seriesUiState) {
-            is SeriesUiState.Success -> LazyColumnMedia(navController, seriesUiState.result.results)
+            is SeriesUiState.Success -> LazyColumnMedia(navController, seriesUiState.result, seriesViewModel)
             is SeriesUiState.Error -> {}
             is SeriesUiState.Loading -> {}
         }

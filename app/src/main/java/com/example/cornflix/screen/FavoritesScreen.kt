@@ -28,7 +28,7 @@ fun FavoritesScreen(
                 val result = favoritesUiState.moviesResult.results + favoritesUiState.seriesResult.results
                 val sorted = result.sortedBy { it.voteAverage }
 
-                LazyColumnMedia(navController, sorted)
+                //LazyColumnMedia(navController, sorted)
             }
             is GetFavoritesUiState.Error -> {}
             is GetFavoritesUiState.Loading -> {}

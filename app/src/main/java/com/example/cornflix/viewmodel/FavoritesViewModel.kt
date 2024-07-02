@@ -84,4 +84,23 @@ class FavoritesViewModel : ViewModel() {
             }
         }
     }
+
+    fun removeFavorites(mediaId: String, mediaType: String) {
+        viewModelScope.launch {
+            addFavoritesUiState = try {
+                val body = FavoriteBody(
+                    false,
+                    mediaId,
+                    mediaType
+                )
+
+                val result = RetrofitService.retrofitService.addFavorites(body)
+                AddFavoritesUiState.AddSuccess(result)
+            } catch (e: IOException) {
+                AddFavoritesUiState.Error
+            } catch (e: HttpException) {
+                AddFavoritesUiState.Error
+            }
+        }
+    }
 }

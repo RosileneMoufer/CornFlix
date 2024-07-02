@@ -70,7 +70,8 @@ fun Nav(
             MediaScreen(
                 innerPadding = innerPadding,
                 mediaUiState = mediaViewModel.mediaUiState,
-                navController
+                navController,
+                mediaViewModel
             )
         }
         composable(route = ItemsMenu.Movies.name) {
@@ -78,7 +79,8 @@ fun Nav(
             MovieScreen(
                 innerPadding = innerPadding,
                 moviesUiState = moviesViewModel.moviesUiState,
-                navController
+                navController,
+                moviesViewModel
             )
         }
         composable(route = ItemsMenu.Series.name) {
@@ -86,7 +88,8 @@ fun Nav(
             SeriesScreen(
                 innerPadding = innerPadding,
                 seriesUiState = seriesViewModel.seriesUiState,
-                navController
+                navController,
+                seriesViewModel
             )
         }
         composable(route = ItemsMenu.Details.name) {

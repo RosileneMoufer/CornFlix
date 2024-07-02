@@ -163,8 +163,7 @@ fun DetailsMediaScreen(paddingValues: PaddingValues, mediaModel: MediaModel) {
             SnackbarHost(
                 hostState = snackbarHostState
             ) { snackbarData: SnackbarData ->
-                CustomSnackBar(
-                    "Adicionado com sucesso\naos Favoritos!",
+                CustomSnackBar("Adicionado com sucesso\naos Favoritos!",
                 )
             }
         }
