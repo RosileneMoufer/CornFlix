@@ -13,7 +13,6 @@ import kotlinx.coroutines.launch
 import retrofit2.HttpException
 import java.io.IOException
 
-
 sealed interface MediaUiState {
     data class Success(
         val moviesResult: MediaResponse<Movie>,

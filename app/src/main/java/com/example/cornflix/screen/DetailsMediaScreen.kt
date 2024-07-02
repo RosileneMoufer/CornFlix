@@ -8,24 +8,39 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Close
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.Snackbar
+import androidx.compose.material3.SnackbarData
+import androidx.compose.material3.SnackbarHost
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
+import com.example.cornflix.api.IMAGE_URL
 import com.example.cornflix.components.buttons.SaveButton
 import com.example.cornflix.components.buttons.TrailerButton
 import com.example.cornflix.ui.theme.detailsTextColor
@@ -34,10 +49,13 @@ import com.example.cornflix.ui.theme.secondary
 import com.example.cornflix.ui.theme.textColor
 import com.example.cornflix.ui.theme.transparent
 import com.example.cornflix.model.media.MediaModel
+import com.example.cornflix.viewmodel.FavoritesViewModel
 
 @Composable
 fun DetailsMediaScreen(paddingValues: PaddingValues, mediaModel: MediaModel) {
-    val mediaType = mediaModel.javaClass.name
+    val favoritesViewModel: FavoritesViewModel = viewModel()
+    val snackbarHostState = remember { SnackbarHostState() }
+
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -49,7 +67,7 @@ fun DetailsMediaScreen(paddingValues: PaddingValues, mediaModel: MediaModel) {
         AsyncImage(
             modifier = Modifier.fillMaxSize(),
             model = ImageRequest.Builder(context = LocalContext.current)
-                .data("https://image.tmdb.org/t/p/original${mediaModel.poster}")
+                .data("$IMAGE_URL${mediaModel.poster}")
                 .crossfade(true).build(),
             contentDescription = mediaModel.name,
             contentScale = ContentScale.Crop,
@@ -134,10 +152,41 @@ fun DetailsMediaScreen(paddingValues: PaddingValues, mediaModel: MediaModel) {
             // buttons
             Row(horizontalArrangement = Arrangement.spacedBy(12.dp)) {
                 TrailerButton()
-                SaveButton(mediaModel.id)
+                SaveButton(
+                    mediaModel.id,
+                    mediaModel.javaClass.name.lowercase(),
+                    favoritesViewModel,
+                    snackbarHostState
+                )
             }
-
+            Spacer(modifier = Modifier.height(32.dp))
+            SnackbarHost(
+                hostState = snackbarHostState
+            ) { snackbarData: SnackbarData ->
+                CustomSnackBar(
+                    "Adicionado com sucesso\naos Favoritos!",
+                )
+            }
         }
+    }
+}
 
+@Composable
+fun CustomSnackBar(
+    message: String,
+) {
+    Snackbar(containerColor = secondary, contentColor = textColor) {
+        CompositionLocalProvider {
+            Row(
+                Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceBetween,
+                verticalAlignment = Alignment.CenterVertically
+                ) {
+                Text(message, style = TextStyle(fontSize = 16.sp))
+                IconButton(onClick = { /*TODO*/ }) {
+                    Icon(imageVector = Icons.Filled.Close, contentDescription = "close")
+                }
+            }
+        }
     }
 }

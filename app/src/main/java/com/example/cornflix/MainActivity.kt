@@ -20,10 +20,12 @@ import com.example.cornflix.components.topbar.TopAppBar
 import com.example.cornflix.constants.ItemsMenu
 import com.example.cornflix.model.media.MediaModel
 import com.example.cornflix.screen.DetailsMediaScreen
+import com.example.cornflix.screen.FavoritesScreen
 import com.example.cornflix.screen.MediaScreen
 import com.example.cornflix.screen.MovieScreen
 import com.example.cornflix.screen.SeriesScreen
 import com.example.cornflix.ui.theme.CornFlixTheme
+import com.example.cornflix.viewmodel.FavoritesViewModel
 import com.example.cornflix.viewmodel.HomeScreenViewModel
 import com.example.cornflix.viewmodel.MediaViewModel
 import com.example.cornflix.viewmodel.MoviesViewModel
@@ -95,6 +97,14 @@ fun Nav(
             } else {
                 // exibe tela "Not found"
             }
+        }
+        composable(route = ItemsMenu.Favorites.name) {
+            val favoritesViewModel: FavoritesViewModel = viewModel<FavoritesViewModel>()
+            FavoritesScreen(
+                innerPadding = innerPadding,
+                favoritesUiState = favoritesViewModel.getFavoritesUiState,
+                navController
+            )
         }
     }
 }

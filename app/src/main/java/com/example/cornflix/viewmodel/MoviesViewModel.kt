@@ -19,15 +19,19 @@ sealed interface MoviesUiState {
 }
 
 class MoviesViewModel : ViewModel() {
-    /** The mutable State that stores the status of the most recent request */
     var moviesUiState: MoviesUiState by mutableStateOf(MoviesUiState.Loading)
         private set
+
+    var moviesListResponse : List<Movie> by mutableStateOf(listOf())
+    private var lastOffset : Long by mutableStateOf(0.toLong())
+    var errorMessage : String by mutableStateOf("")
 
     init {
         getMovies()
     }
 
     fun getMovies() {
+
         viewModelScope.launch {
             moviesUiState = MoviesUiState.Loading
             moviesUiState = try {

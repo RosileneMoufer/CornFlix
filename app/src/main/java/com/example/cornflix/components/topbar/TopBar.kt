@@ -60,7 +60,7 @@ fun TopAppBar(navController: NavHostController, homeScreenViewModel: HomeScreenV
                     })
             }
             LogoButton(mySize, navController)
-            FavoriteButton(mySize)
+            FavoriteButton(mySize, navController)
         }
         if(expanded == true){
             Text(

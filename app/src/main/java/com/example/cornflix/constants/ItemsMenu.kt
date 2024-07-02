@@ -5,4 +5,5 @@ enum class ItemsMenu() {
     Movies,
     Series,
     Details,
+    Favorites,
 }
