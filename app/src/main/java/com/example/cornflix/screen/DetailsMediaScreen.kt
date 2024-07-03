@@ -65,7 +65,6 @@ fun DetailsMediaScreen(paddingValues: PaddingValues, mediaModel: MediaModel) {
             .padding(top = paddingValues.calculateTopPadding()),
         contentAlignment = Alignment.Center
     ) {
-
         AsyncImage(
             modifier = Modifier.fillMaxSize(),
             model = ImageRequest.Builder(context = LocalContext.current)
@@ -153,7 +152,10 @@ fun DetailsMediaScreen(paddingValues: PaddingValues, mediaModel: MediaModel) {
 
             // buttons
             Row(horizontalArrangement = Arrangement.spacedBy(12.dp)) {
-                TrailerButton()
+                TrailerButton(
+                    mediaModel.id,
+                    mediaModel.javaClass.name.lowercase()
+                )
                 SaveButton(
                     mediaModel.id,
                     mediaModel.javaClass.name.lowercase(),

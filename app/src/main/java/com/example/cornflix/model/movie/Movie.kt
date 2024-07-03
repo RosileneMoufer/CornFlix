@@ -13,5 +13,4 @@ data class Movie(
     @SerializedName("poster_path") override var poster: String,
     @SerializedName("release_date") override var releaseDate: String,
     @SerializedName("vote_average") override var voteAverage: String,
-    override var mediaType : String = "movie"
 ) : MediaModel, Parcelable

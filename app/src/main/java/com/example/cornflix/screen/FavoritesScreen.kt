@@ -24,7 +24,6 @@ fun FavoritesScreen(
     favoritesViewModel: FavoritesViewModel,
     modifier: Modifier = Modifier
 ) {
-
     Surface(modifier = modifier
         .fillMaxSize()
         .padding(top = innerPadding.calculateTopPadding())) {

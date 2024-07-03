@@ -21,7 +21,6 @@ fun SeriesScreen(
     modifier: Modifier = Modifier) {
 
     Surface(modifier = modifier.fillMaxSize().padding(top = innerPadding.calculateTopPadding())) {
-
         when (seriesUiState) {
             is SeriesUiState.Success -> LazyColumnMedia(navController, seriesViewModel)
             is SeriesUiState.Error -> {}

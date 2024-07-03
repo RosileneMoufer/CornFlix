@@ -14,6 +14,7 @@ import androidx.compose.material.icons.filled.PlayArrow
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -21,17 +22,41 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
+import com.example.cornflix.model.series.Series
 import com.example.cornflix.ui.theme.favorite
 import com.example.cornflix.ui.theme.textColor
+import com.example.cornflix.viewmodel.FavoritesViewModel
+import com.example.cornflix.viewmodel.MoviesViewModel
+import com.example.cornflix.viewmodel.SeriesViewModel
+import kotlinx.coroutines.launch
 
 @Composable
-fun TrailerButton() {
+fun TrailerButton(mediaId : String, mediaType: String) {
+    val movieViewModel: MoviesViewModel = viewModel()
+    val seriesViewModel: SeriesViewModel = viewModel()
+
+    val scope = rememberCoroutineScope()
+
+
+    val type = if (mediaType.contains("movie")) {
+        "movie"
+    } else {
+        "tv"
+    }
+
     Box(
         modifier = Modifier
             .clip(RoundedCornerShape(8.dp))
             .background(favorite)
             .border(2.dp, color = favorite, shape = RoundedCornerShape(8.dp))
-            .clickable { /* TODO */ },
+            .clickable {
+                scope.launch {
+                    if (type == "movie") {
+                        //movieViewModel.getMovie(mediaId)
+                    }
+                }
+            },
         contentAlignment = Alignment.Center
     ) {
         Row(modifier = Modifier

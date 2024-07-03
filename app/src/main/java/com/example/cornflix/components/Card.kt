@@ -26,12 +26,6 @@ fun Card(
     navController: NavController,
     defaultViewModel: DefaultViewModel? = null
 ) {
-    val type = if (mediaModel.javaClass.name.lowercase().contains("movie")) {
-        "movie"
-    } else {
-        "tv"
-    }
-
     Box() {
         AsyncImage(
             modifier = Modifier
@@ -52,6 +46,12 @@ fun Card(
         )
         if (defaultViewModel != null) RemoveFavoriteButton(iconHeight = 32.dp,
             onClick = {
+                val type = if (mediaModel.javaClass.name.lowercase().contains("movie")) {
+                    "movie"
+                } else {
+                    "tv"
+                }
+
                 defaultViewModel.removeFavorites(
                     mediaId = mediaModel.id,
                     mediaType = type

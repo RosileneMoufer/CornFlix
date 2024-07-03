@@ -57,7 +57,6 @@ fun LazyColumnMedia(
             .background(tertiary),
     ) {
         itemsIndexed(defaultViewModel.defaultListResponse) { _, item ->
-            print(item.mediaType + "  mediaaaaaaa")
             if (isFavorite) Card(
                 mediaModel = item, navController, defaultViewModel
             ) else Card(mediaModel = item, navController)
