@@ -5,6 +5,9 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.livedata.observeAsState
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
@@ -18,7 +21,6 @@ import com.example.cornflix.components.buttons.RemoveFavoriteButton
 import com.example.cornflix.constants.ItemsMenu
 import com.example.cornflix.model.media.MediaModel
 import com.example.cornflix.viewmodel.DefaultViewModel
-import com.example.cornflix.viewmodel.FavoritesViewModel
 
 @Composable
 fun Card(
@@ -26,6 +28,12 @@ fun Card(
     navController: NavController,
     defaultViewModel: DefaultViewModel? = null
 ) {
+
+    // MutableLiveData.... -> defaultVIewModel.list
+    //val removedCard by defaultViewModel?.defaultListResponse.observeAsState()
+    val filteredList by defaultViewModel?.filteredList?.observeAsState()
+
+
     val type = if (mediaModel.javaClass.name.lowercase().contains("movie")) {
         "movie"
     } else {
@@ -58,5 +66,4 @@ fun Card(
                 )
             })
     }
-
 }
