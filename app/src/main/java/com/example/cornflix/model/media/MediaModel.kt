@@ -8,5 +8,5 @@ interface MediaModel {
     var poster: String
     var releaseDate: String
     var voteAverage: String
-    var mediaType: String
+    val mediaType: String
 }

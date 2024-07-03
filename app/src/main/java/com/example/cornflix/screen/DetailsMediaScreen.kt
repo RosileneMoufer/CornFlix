@@ -19,12 +19,14 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Snackbar
 import androidx.compose.material3.SnackbarData
+import androidx.compose.material3.SnackbarDuration
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
@@ -161,9 +163,10 @@ fun DetailsMediaScreen(paddingValues: PaddingValues, mediaModel: MediaModel) {
             }
             Spacer(modifier = Modifier.height(32.dp))
             SnackbarHost(
-                hostState = snackbarHostState
+                hostState = snackbarHostState,
             ) { snackbarData: SnackbarData ->
-                CustomSnackBar("Adicionado com sucesso\naos Favoritos!",
+                CustomSnackBar(
+                    "Adicionado com sucesso\naos Favoritos!", snackbarHostState
                 )
             }
         }
@@ -173,6 +176,7 @@ fun DetailsMediaScreen(paddingValues: PaddingValues, mediaModel: MediaModel) {
 @Composable
 fun CustomSnackBar(
     message: String,
+    snackbarHostState: SnackbarHostState
 ) {
     Snackbar(containerColor = secondary, contentColor = textColor) {
         CompositionLocalProvider {
@@ -180,9 +184,9 @@ fun CustomSnackBar(
                 Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.SpaceBetween,
                 verticalAlignment = Alignment.CenterVertically
-                ) {
+            ) {
                 Text(message, style = TextStyle(fontSize = 16.sp))
-                IconButton(onClick = { /*TODO*/ }) {
+                IconButton(onClick = { snackbarHostState.currentSnackbarData?.dismiss() }) {
                     Icon(imageVector = Icons.Filled.Close, contentDescription = "close")
                 }
             }

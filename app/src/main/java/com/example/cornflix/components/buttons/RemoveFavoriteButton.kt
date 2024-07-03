@@ -21,7 +21,7 @@ import androidx.compose.ui.unit.dp
 @Composable
 fun RemoveFavoriteButton(iconHeight: Dp, onClick: () -> Unit) {
     IconButton(
-        onClick = { onClick },
+        onClick = onClick,
         modifier = Modifier.size(iconHeight)
     ){
         Box(

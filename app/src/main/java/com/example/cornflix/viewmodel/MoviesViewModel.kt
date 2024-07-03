@@ -22,6 +22,8 @@ sealed interface MoviesUiState {
 }
 
 class MoviesViewModel : DefaultViewModel() {
+    override var mediaType = "movie"
+
     var moviesUiState: MoviesUiState by mutableStateOf(MoviesUiState.Loading)
         private set
 

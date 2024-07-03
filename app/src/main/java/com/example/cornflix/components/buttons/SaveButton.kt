@@ -8,30 +8,28 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Favorite
-import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
 import androidx.compose.material3.SnackbarDuration
-import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.cornflix.constants.RequestStatus
 import com.example.cornflix.ui.theme.textColor
 import com.example.cornflix.ui.theme.transparent
-import com.example.cornflix.viewmodel.AddFavoritesUiState
 import com.example.cornflix.viewmodel.FavoritesViewModel
 import kotlinx.coroutines.launch
 
@@ -42,8 +40,18 @@ fun SaveButton(
     favoritesViewModel: FavoritesViewModel,
     snackbarHostState: SnackbarHostState,
 ) {
-
     val scope = rememberCoroutineScope()
+    val status by favoritesViewModel.status.collectAsState()
+
+    LaunchedEffect(key1 = status, block = {
+        if (status == RequestStatus.SUCCESS) {
+            snackbarHostState.showSnackbar(
+                message = "Snackbar",
+                actionLabel = "Action",
+                duration = SnackbarDuration.Indefinite
+            )
+        }
+    })
 
     Box(
         modifier = Modifier
@@ -51,30 +59,14 @@ fun SaveButton(
             .background(transparent)
             .border(2.dp, color = textColor, shape = RoundedCornerShape(8.dp))
             .clickable {
+                val type = if (mediaType.contains("movie")) {
+                    "movie"
+                } else {
+                    "tv"
+                }
+
                 scope.launch {
-                    val type = if (mediaType.contains("movie")) {
-                        "movie"
-                    } else {
-                        "tv"
-                    }
-
                     favoritesViewModel.addFavorites(mediaId, mediaType = type)
-
-                    when (favoritesViewModel.addFavoritesUiState) {
-                        is AddFavoritesUiState.Loading -> {
-                            // loading = true
-                        }
-
-                        is AddFavoritesUiState.AddSuccess -> {
-                            snackbarHostState.showSnackbar(
-                                message = "Snackbar",
-                                actionLabel = "Action",
-                                duration = SnackbarDuration.Indefinite
-                            )
-                        }
-
-                        is AddFavoritesUiState.Error -> println("error!! $type")
-                    }
                 }
             },
         contentAlignment = Alignment.Center
@@ -105,5 +97,4 @@ fun SaveButton(
             }
         }
     }
-
 }

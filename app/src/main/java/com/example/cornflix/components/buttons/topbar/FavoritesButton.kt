@@ -20,7 +20,7 @@ fun FavoriteButton(iconHeight: Dp, navController: NavHostController){
         colors = IconButtonDefaults.iconButtonColors(
             contentColor = favorite,
         ),
-        onClick = { navController.navigate(ItemsMenu.Favorites.name) }) {
+        onClick = { navController.navigate(ItemsMenu.FAVORITES.name) }) {
         Icon(modifier = Modifier.fillMaxSize(),
             imageVector = Icons.Default.Favorite,
             contentDescription = "Favorite",

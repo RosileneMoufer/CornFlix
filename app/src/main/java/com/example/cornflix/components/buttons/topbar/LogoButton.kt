@@ -15,7 +15,7 @@ import com.example.cornflix.constants.ItemsMenu
 @Composable
 fun LogoButton(iconHeight: Dp, navController: NavController){
     IconButton(modifier = Modifier.size(iconHeight),
-        onClick = { navController.navigate(ItemsMenu.Home.name) }) {
+        onClick = { navController.navigate(ItemsMenu.HOME.name) }) {
         Image(modifier = Modifier.fillMaxSize(),
             painter = painterResource(id = R.drawable.popcorn),
             contentDescription = "logo"

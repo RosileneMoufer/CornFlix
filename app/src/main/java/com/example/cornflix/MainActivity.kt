@@ -64,8 +64,8 @@ fun Nav(
     innerPadding: PaddingValues,
     navController: NavHostController,
 ) {
-    NavHost(navController = navController, startDestination = ItemsMenu.Home.name) {
-        composable(route = ItemsMenu.Home.name) {
+    NavHost(navController = navController, startDestination = ItemsMenu.HOME.name) {
+        composable(route = ItemsMenu.HOME.name) {
             val mediaViewModel: MediaViewModel = viewModel<MediaViewModel>()
             MediaScreen(
                 innerPadding = innerPadding,
@@ -74,7 +74,7 @@ fun Nav(
                 mediaViewModel
             )
         }
-        composable(route = ItemsMenu.Movies.name) {
+        composable(route = ItemsMenu.MOVIES.name) {
             val moviesViewModel: MoviesViewModel = viewModel<MoviesViewModel>()
             MovieScreen(
                 innerPadding = innerPadding,
@@ -83,7 +83,7 @@ fun Nav(
                 moviesViewModel
             )
         }
-        composable(route = ItemsMenu.Series.name) {
+        composable(route = ItemsMenu.SERIES.name) {
             val seriesViewModel: SeriesViewModel = viewModel<SeriesViewModel>()
             SeriesScreen(
                 innerPadding = innerPadding,
@@ -92,7 +92,7 @@ fun Nav(
                 seriesViewModel
             )
         }
-        composable(route = ItemsMenu.Details.name) {
+        composable(route = ItemsMenu.DETAILS.name) {
             val results =
                 navController.previousBackStackEntry?.savedStateHandle?.get<MediaModel>("media")
             if (results != null) {
@@ -101,12 +101,13 @@ fun Nav(
                 // exibe tela "Not found"
             }
         }
-        composable(route = ItemsMenu.Favorites.name) {
+        composable(route = ItemsMenu.FAVORITES.name) {
             val favoritesViewModel: FavoritesViewModel = viewModel<FavoritesViewModel>()
             FavoritesScreen(
                 innerPadding = innerPadding,
                 favoritesUiState = favoritesViewModel.getFavoritesUiState,
-                navController
+                navController,
+                favoritesViewModel
             )
         }
     }

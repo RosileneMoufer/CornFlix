@@ -21,10 +21,8 @@ fun MovieScreen(
     modifier: Modifier = Modifier) {
 
     Surface(modifier = modifier.fillMaxSize().padding(top = innerPadding.calculateTopPadding())) {
-
-
         when (moviesUiState) {
-            is MoviesUiState.Success -> LazyColumnMedia(navController, moviesUiState.result, moviesViewModel)
+            is MoviesUiState.Success -> LazyColumnMedia(navController, moviesViewModel)
             is MoviesUiState.Error -> {}
             is MoviesUiState.Loading -> {}
         }

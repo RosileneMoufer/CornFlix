@@ -70,7 +70,7 @@ fun TopAppBar(navController: NavHostController, homeScreenViewModel: HomeScreenV
                     .padding(8.dp)
                     .fillMaxWidth()
                     .clickable {
-                        navController.navigate(ItemsMenu.Home.name)
+                        navController.navigate(ItemsMenu.HOME.name)
                         homeScreenViewModel.changeIcon(showMi = true, expand = false)
                     }
             )
@@ -81,7 +81,7 @@ fun TopAppBar(navController: NavHostController, homeScreenViewModel: HomeScreenV
                     .padding(8.dp)
                     .fillMaxWidth()
                     .clickable {
-                        navController.navigate(ItemsMenu.Movies.name)
+                        navController.navigate(ItemsMenu.MOVIES.name)
                         homeScreenViewModel.changeIcon(showMi = true, expand = false)
                     }
             )
@@ -92,7 +92,7 @@ fun TopAppBar(navController: NavHostController, homeScreenViewModel: HomeScreenV
                     .padding(8.dp)
                     .fillMaxWidth()
                     .clickable {
-                        navController.navigate(ItemsMenu.Series.name)
+                        navController.navigate(ItemsMenu.SERIES.name)
                         homeScreenViewModel.changeIcon(showMi = true, expand = false)
                     }
             )

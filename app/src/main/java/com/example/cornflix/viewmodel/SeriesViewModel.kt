@@ -21,7 +21,8 @@ sealed interface SeriesUiState {
 }
 
 class SeriesViewModel : DefaultViewModel() {
-    /** The mutable State that stores the status of the most recent request */
+    override var mediaType = "tv"
+
     var seriesUiState: SeriesUiState by mutableStateOf(SeriesUiState.Loading)
         private set
 

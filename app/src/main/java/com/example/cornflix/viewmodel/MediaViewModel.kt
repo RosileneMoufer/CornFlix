@@ -30,7 +30,8 @@ sealed interface MediaUiState {
 }
 
 class MediaViewModel : DefaultViewModel() {
-    /** The mutable State that stores the status of the most recent request */
+    override var mediaType = "media"
+
     var mediaUiState: MediaUiState by mutableStateOf(MediaUiState.Loading)
         private set
 
