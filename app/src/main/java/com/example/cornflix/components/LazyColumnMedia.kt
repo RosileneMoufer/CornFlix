@@ -21,10 +21,14 @@ import androidx.compose.runtime.setValue
 import androidx.compose.runtime.toMutableStateList
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.example.cornflix.components.buttons.RemoveFavoriteButton
 import com.example.cornflix.ui.theme.tertiary
 import com.example.cornflix.viewmodel.DefaultViewModel
+import com.example.cornflix.viewmodel.FavoritesViewModel
+import com.example.cornflix.viewmodel.MoviesUiState
+import com.example.cornflix.viewmodel.MoviesViewModel
 
 @SuppressLint("UnrememberedMutableState", "MutableCollectionMutableState")
 @Composable
@@ -34,11 +38,11 @@ fun LazyColumnMedia(
 ) {
     val isFavorite = defaultViewModel.javaClass.name.lowercase().contains("favorites")
 
+    var page: Int by mutableIntStateOf(1)
+
     var listOfMedias by remember {
         mutableStateOf(defaultViewModel.defaultListResponse.toMutableStateList())
     }
-
-    var page: Int by mutableIntStateOf(1)
 
     val scrollState = rememberLazyGridState()
 
@@ -63,35 +67,37 @@ fun LazyColumnMedia(
             .fillMaxSize()
             .background(tertiary),
     ) {
-        itemsIndexed(listOfMedias) { _, item ->
+        if (isFavorite)
+            itemsIndexed(listOfMedias) { _, item ->
+                Box {
+                    Card(
+                        mediaModel = item, navController
+                    )
+                    RemoveFavoriteButton(
+                        iconHeight = 32.dp,
+                        onClick = {
+                            val type = if (item.javaClass.name.lowercase().contains("movie")) {
+                                "movie"
+                            } else {
+                                "tv"
+                            }
 
-            if (isFavorite) Box {
-                Card(
-                    mediaModel = item, navController
-                )
-                RemoveFavoriteButton(
-                    iconHeight = 32.dp,
-                    onClick = {
-                        val type = if (item.javaClass.name.lowercase().contains("movie")) {
-                            "movie"
-                        } else {
-                            "tv"
-                        }
+                            defaultViewModel.removeFavorites(
+                                mediaId = item.id,
+                                mediaType = type
+                            )
 
-                        defaultViewModel.removeFavorites(
-                            mediaId = item.id,
-                            mediaType = type
-                        )
+                            val mediasToRemove = listOfMedias.find {
+                                it.id == item.id
+                            }
 
-                        val midiasToRemove = listOfMedias.find {
-                            it.id == item.id
-                        }
-
-                        listOfMedias = listOfMedias.also {
-                            it.remove(midiasToRemove)
-                        }
-                    })
-            } else Card(mediaModel = item, navController)
+                            listOfMedias = listOfMedias.also {
+                                it.remove(mediasToRemove)
+                            }
+                        })
+                }
+            } else itemsIndexed(defaultViewModel.defaultListResponse) { _, item ->
+            Card(mediaModel = item, navController)
         }
     }
 }

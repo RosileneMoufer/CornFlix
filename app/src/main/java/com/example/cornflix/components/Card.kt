@@ -1,6 +1,7 @@
 package com.example.cornflix.components
 
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -20,9 +21,9 @@ fun Card(
     mediaModel: MediaModel,
     navController: NavController,
 ) {
-
     AsyncImage(
         modifier = Modifier
+            .fillMaxSize()
             .clip(RoundedCornerShape(8.dp))
             .clickable {
                 navController.currentBackStackEntry?.savedStateHandle?.set(

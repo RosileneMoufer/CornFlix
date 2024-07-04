@@ -6,6 +6,8 @@ import androidx.compose.runtime.setValue
 import androidx.lifecycle.viewModelScope
 import com.example.cornflix.api.RetrofitService
 import com.example.cornflix.model.media.MediaModel
+import com.example.cornflix.model.media.MediaResponse
+import com.example.cornflix.model.movie.Movie
 import kotlinx.coroutines.launch
 import retrofit2.HttpException
 import java.io.IOException
@@ -34,6 +36,7 @@ class MoviesViewModel : DefaultViewModel() {
                 defaultListResponse = defaultListResponse + result.results
 
                 MoviesUiState.Success(defaultListResponse)
+
             } catch (e: IOException) {
                 MoviesUiState.Error
             } catch (e: HttpException) {

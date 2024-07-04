@@ -41,13 +41,6 @@ interface TMDBService {
         "Authorization:Bearer $API_KEY",
         "Accept:application/json"
     )
-    @POST("account/$ACCOUNT_ID/favorite")
-    suspend fun removeFavorites(@Body favoritesOptions: FavoriteBody): FavoritesResponse
-
-    @Headers(
-        "Authorization:Bearer $API_KEY",
-        "Accept:application/json"
-    )
     @GET("account/$ACCOUNT_ID/favorite/tv")
     suspend fun getFavoritesSeries(@Query("page") page:Int = 1) : MediaResponse<Series>
 

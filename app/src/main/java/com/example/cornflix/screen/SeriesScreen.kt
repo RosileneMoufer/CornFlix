@@ -11,6 +11,7 @@ import com.example.cornflix.components.LazyColumnMedia
 import com.example.cornflix.viewmodel.SeriesUiState
 import com.example.cornflix.viewmodel.SeriesViewModel
 
+
 @Composable
 fun SeriesScreen(
     innerPadding: PaddingValues,

@@ -105,7 +105,6 @@ fun Nav(
             val favoritesViewModel: FavoritesViewModel = viewModel<FavoritesViewModel>()
             FavoritesScreen(
                 innerPadding = innerPadding,
-                favoritesUiState = favoritesViewModel.getFavoritesUiState,
                 navController,
                 favoritesViewModel
             )
