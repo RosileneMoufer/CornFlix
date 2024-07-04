@@ -1,6 +1,7 @@
 package com.example.cornflix.screen
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -19,32 +20,33 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Snackbar
 import androidx.compose.material3.SnackbarData
-import androidx.compose.material3.SnackbarDuration
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.platform.LocalLayoutDirection
+import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.example.cornflix.api.IMAGE_URL
+import com.example.cornflix.components.YoutubePlayer
 import com.example.cornflix.components.buttons.SaveButton
 import com.example.cornflix.components.buttons.TrailerButton
+import com.example.cornflix.constants.RequestStatus
 import com.example.cornflix.ui.theme.detailsTextColor
 import com.example.cornflix.ui.theme.primary
 import com.example.cornflix.ui.theme.secondary
@@ -52,10 +54,13 @@ import com.example.cornflix.ui.theme.textColor
 import com.example.cornflix.ui.theme.transparent
 import com.example.cornflix.model.media.MediaModel
 import com.example.cornflix.viewmodel.FavoritesViewModel
+import com.example.cornflix.viewmodel.TrailerViewModel
 
 @Composable
 fun DetailsMediaScreen(paddingValues: PaddingValues, mediaModel: MediaModel) {
     val favoritesViewModel: FavoritesViewModel = viewModel()
+    val trailerViewModel: TrailerViewModel = viewModel<TrailerViewModel>()
+    val status by trailerViewModel.status.collectAsState()
     val snackbarHostState = remember { SnackbarHostState() }
 
     Box(
@@ -154,7 +159,8 @@ fun DetailsMediaScreen(paddingValues: PaddingValues, mediaModel: MediaModel) {
             Row(horizontalArrangement = Arrangement.spacedBy(12.dp)) {
                 TrailerButton(
                     mediaModel.id,
-                    mediaModel.javaClass.name.lowercase()
+                    mediaModel.javaClass.name.lowercase(),
+                    trailerViewModel,
                 )
                 SaveButton(
                     mediaModel.id,
@@ -171,6 +177,14 @@ fun DetailsMediaScreen(paddingValues: PaddingValues, mediaModel: MediaModel) {
                     "Adicionado com sucesso\naos Favoritos!", snackbarHostState
                 )
             }
+        }
+
+        if (status == RequestStatus.SUCCESS) {
+            PlayerContainer(id = trailerViewModel.trailerKey) {
+                trailerViewModel._status.value = RequestStatus.FAILURE
+            }
+        } else {
+            /* TODO */
         }
     }
 }
@@ -193,5 +207,30 @@ fun CustomSnackBar(
                 }
             }
         }
+    }
+}
+
+@Composable
+fun PlayerContainer(id: String, action: () -> Unit) {
+    Box(
+        modifier = Modifier
+            .fillMaxSize()
+            .background(Color.Black)
+    ) {
+        Row(modifier = Modifier.align(Alignment.Center)) {
+            YoutubePlayer(
+                youtubeVideoId = id,
+                lifecycleOwner = LocalLifecycleOwner.current
+            )
+        }
+        Icon(
+            imageVector = Icons.Filled.Close,
+            contentDescription = "Close player",
+            tint = Color.White,
+            modifier = Modifier
+                .padding(top = 10.dp, end = 10.dp)
+                .align(Alignment.TopEnd)
+                .clickable { action() }
+        )
     }
 }

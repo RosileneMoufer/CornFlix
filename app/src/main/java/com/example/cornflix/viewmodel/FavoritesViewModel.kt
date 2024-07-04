@@ -34,10 +34,11 @@ class FavoritesViewModel : DefaultViewModel() {
     override var mediaType = "favorite"
 
     private val _status = MutableStateFlow(RequestStatus.LOADING)
-    val status : StateFlow<RequestStatus> = _status
+    val status: StateFlow<RequestStatus> = _status
 
     var addFavoritesUiState: AddFavoritesUiState by mutableStateOf(AddFavoritesUiState.Loading)
         private set
+
     var getFavoritesUiState: GetFavoritesUiState by mutableStateOf(GetFavoritesUiState.Loading)
         private set
 
@@ -45,7 +46,7 @@ class FavoritesViewModel : DefaultViewModel() {
         getMoreMedias(1)
     }
 
-    override fun getMoreMedias(page : Int) {
+    override fun getMoreMedias(page: Int) {
         viewModelScope.launch {
             getFavoritesUiState = try {
                 val resultFavoritesMovie = RetrofitService.retrofitService.getFavoritesMovie(page)
@@ -57,7 +58,6 @@ class FavoritesViewModel : DefaultViewModel() {
                 defaultListResponse = defaultListResponse + sorted
 
                 GetFavoritesUiState.Success(defaultListResponse)
-
             } catch (e: IOException) {
                 GetFavoritesUiState.Error
             } catch (e: HttpException) {
@@ -65,22 +65,7 @@ class FavoritesViewModel : DefaultViewModel() {
             }
         }
     }
-    /*
-        private fun getFavorites() {
-            viewModelScope.launch {
-                getFavoritesUiState = try {
-                    val resultFavoritesMovie = RetrofitService.retrofitService.getFavoritesMovie()
-                    val resultFavoritesSeries = RetrofitService.retrofitService.getFavoritesSeries()
 
-                    GetFavoritesUiState.GetSuccess(resultFavoritesMovie, resultFavoritesSeries)
-                } catch (e: IOException) {
-                    GetFavoritesUiState.Error
-                } catch (e: HttpException) {
-                    GetFavoritesUiState.Error
-                }
-            }
-        }
-    */
     fun addFavorites(mediaId: String, mediaType: String) {
         viewModelScope.launch {
             _status.value = RequestStatus.LOADING
@@ -94,12 +79,9 @@ class FavoritesViewModel : DefaultViewModel() {
 
                 val result = RetrofitService.retrofitService.addFavorites(body)
 
-
                 _status.value = RequestStatus.SUCCESS
 
                 AddFavoritesUiState.Success(result)
-
-
             } catch (e: IOException) {
                 _status.value = RequestStatus.FAILURE
                 AddFavoritesUiState.Error
@@ -121,7 +103,7 @@ class FavoritesViewModel : DefaultViewModel() {
                     mediaType
                 )
 
-                val result = RetrofitService.retrofitService.addFavorites(body)
+                val result = RetrofitService.retrofitService.removeFavorites(body)
                 AddFavoritesUiState.Success(result)
             } catch (e: IOException) {
                 AddFavoritesUiState.Error

@@ -6,7 +6,6 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
@@ -23,21 +22,19 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
-import com.example.cornflix.model.series.Series
 import com.example.cornflix.ui.theme.favorite
 import com.example.cornflix.ui.theme.textColor
-import com.example.cornflix.viewmodel.FavoritesViewModel
+import com.example.cornflix.viewmodel.MediaViewModel
 import com.example.cornflix.viewmodel.MoviesViewModel
 import com.example.cornflix.viewmodel.SeriesViewModel
-import kotlinx.coroutines.launch
+import com.example.cornflix.viewmodel.TrailerViewModel
 
 @Composable
-fun TrailerButton(mediaId : String, mediaType: String) {
-    val movieViewModel: MoviesViewModel = viewModel()
-    val seriesViewModel: SeriesViewModel = viewModel()
-
-    val scope = rememberCoroutineScope()
-
+fun TrailerButton(
+    mediaId: String,
+    mediaType: String,
+    trailerViewModel: TrailerViewModel,
+) {
 
     val type = if (mediaType.contains("movie")) {
         "movie"
@@ -51,11 +48,7 @@ fun TrailerButton(mediaId : String, mediaType: String) {
             .background(favorite)
             .border(2.dp, color = favorite, shape = RoundedCornerShape(8.dp))
             .clickable {
-                scope.launch {
-                    if (type == "movie") {
-                        //movieViewModel.getMovie(mediaId)
-                    }
-                }
+                trailerViewModel.getTrailer(mediaId = mediaId, type)
             },
         contentAlignment = Alignment.Center
     ) {

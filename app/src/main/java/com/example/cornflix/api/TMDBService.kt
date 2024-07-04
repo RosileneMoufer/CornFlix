@@ -41,6 +41,13 @@ interface TMDBService {
         "Authorization:Bearer $API_KEY",
         "Accept:application/json"
     )
+    @POST("account/$ACCOUNT_ID/favorite")
+    suspend fun removeFavorites(@Body favoritesOptions: FavoriteBody): FavoritesResponse
+
+    @Headers(
+        "Authorization:Bearer $API_KEY",
+        "Accept:application/json"
+    )
     @GET("account/$ACCOUNT_ID/favorite/tv")
     suspend fun getFavoritesSeries(@Query("page") page:Int = 1) : MediaResponse<Series>
 
@@ -56,14 +63,14 @@ interface TMDBService {
         "Accept:application/json"
     )
     @GET("movie/{mediaId}/videos")
-    suspend fun getMovie(@Path("mediaId") mediaId: String) : TrailerResponse
+    suspend fun getTrailerMovie(@Path("mediaId") mediaId: String) : TrailerResponse
 
     @Headers(
         "Authorization:Bearer $API_KEY",
         "Accept:application/json"
     )
     @GET("tv/{tvId}/videos")
-    suspend fun getSeries(@Path("tvId") tvId: String) : TrailerResponse
+    suspend fun getTrailerSeries(@Path("tvId") tvId: String) : TrailerResponse
 
     companion object {
         const val API_KEY = "eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI5YjkzZGQ5ZTQzMmM1N2QyZTkzNGU0ZGQ1NDcxMmMzMiIsIm5iZiI6MTcxOTQ4NTc1NC4yMzM2NSwic3ViIjoiNjY3YjJhYzVmYjhjYjFjNmMwNTY3ZTFkIiwic2NvcGVzIjpbImFwaV9yZWFkIl0sInZlcnNpb24iOjF9.hYSNnzpykA8fW0MrqEBxv6wsLZyYOeQQQZvotoADt8s"

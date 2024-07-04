@@ -77,5 +77,9 @@ dependencies {
     implementation(libs.converter.gson)
     implementation(libs.gson)
 
+    // Async Image
     implementation(libs.coil.compose)
+
+    // YouTube Player
+    implementation(libs.core)
 }

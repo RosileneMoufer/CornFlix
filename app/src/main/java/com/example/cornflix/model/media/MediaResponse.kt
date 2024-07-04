@@ -4,9 +4,9 @@ import com.google.gson.annotations.SerializedName
 
 // metadados do código
 data class MediaResponse<T: MediaModel> (
-    @SerializedName("page")
+    //@SerializedName("page")
     val page: Int,
-    @SerializedName("results")
+    //@SerializedName("results")
     val results: List<T>,
     @SerializedName("total_pages")
     val totalPages: Int,
